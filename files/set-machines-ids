@@ -17,7 +17,7 @@ def main():
     args = parser.parse_args()
 
     with open(args.machines_file, 'r', encoding='utf-8') as f:
-        machines = yaml.load(f.read())
+        machines = yaml.safe_load(f.read())
 
     for index, machine in enumerate(machines):
         machines[index]['uuid'] = get_vagrant_machine_id(machine['name'], machine['provider'])
