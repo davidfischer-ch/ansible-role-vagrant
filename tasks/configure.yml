@@ -11,7 +11,7 @@
     dest: '{{ vagrant_machines_directory }}/Vagrantfile'
     mode: 0644
 
-- name: Detect machines IDs
+- name: Retrieve machines IDs
   set_fact:
     vagrant_machines: '{{ vagrant_machines|set_vagrant_machines_ids }}'
 
