@@ -9,7 +9,7 @@
   template:
     src: Vagrantfile.j2
     dest: '{{ vagrant_machines_directory }}/Vagrantfile'
-    mode: 0644
+    mode: '644'
 
 - name: Retrieve machines IDs
   set_fact:
