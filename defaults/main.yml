@@ -1,15 +1,15 @@
 vagrant_dynamic_defaults:
 
   apt:
-    # vagrant_release_checksum: 'sha256:f614a60b258a856322f23d33a24201d26ab2555d047814fec403e834eb7d62b4'
     vagrant_release_url: 'https://releases.hashicorp.com/vagrant/{{ vagrant_version }}/vagrant_{{ vagrant_version }}_x86_64.deb'
     vagrant_release_validate_certs: no
+    vagrant_from_release: no
 
   yum:
     vagrant_release_url: 'https://releases.hashicorp.com/vagrant/{{ vagrant_version }}/vagrant_{{ vagrant_version }}_x86_64.rpm'
+    vagrant_from_release: yes
 
   linux:
-    vagrant_from_release: yes
     vagrant_packages:
       - vagrant
 
@@ -22,9 +22,13 @@ vagrant_dynamic_defaults:
   default:
     vagrant_release_checksum: ''
 
+vagrant_apt_key: https://apt.releases.hashicorp.com/gpg
+vagrant_apt_distribution: '{{ ansible_distribution_release }}'
+vagrant_apt_repository: 'deb https://apt.releases.hashicorp.com {{ vagrant_apt_distribution }} main'
+
 vagrant_machines: []
 vagrant_machines_directory: "/tmp/vagrant-{{ vagrant_machines|to_yaml|hash('md5') }}"
 vagrant_plugins: []  # e.g. vbox-snapshot
 vagrant_release_validate_certs: yes
 vagrant_update_boxes: yes
-# vagrant_version: 2.1.2  # 16/08/2018
+vagrant_version: UNDEFINED  # Hack to fix `undefined error` even if not relevant ...
