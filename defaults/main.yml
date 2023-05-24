@@ -1,7 +1,7 @@
 vagrant_dynamic_defaults:
 
   apt:
-    vagrant_release_url: 'https://releases.hashicorp.com/vagrant/{{ vagrant_version }}/vagrant_{{ vagrant_version }}_x86_64.deb'
+    vagrant_release_url: 'https://apt.releases.hashicorp.com/pool/amd64/main/vagrant_{{ vagrant_version }}_amd64.deb'
     vagrant_release_validate_certs: no
     vagrant_from_release: no
 
@@ -24,12 +24,14 @@ vagrant_dynamic_defaults:
 
 vagrant_apt_key: https://apt.releases.hashicorp.com/gpg
 vagrant_apt_key_checksum: sha256:cafb01beac341bf2a9ba89793e6dd2468110291adfbb6c62ed11a0cde6c09029
+vagrant_apt_key_path: /etc/apt/trusted.gpg.d/hashicorp-archive-keyring.asc
 vagrant_apt_distribution: '{{ ansible_distribution_release }}'
-vagrant_apt_repository: deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.asc] https://apt.releases.hashicorp.com {{ vagrant_apt_distribution }} main
+vagrant_apt_repository: deb [signed-by={{ vagrant_apt_key_path }}] https://apt.releases.hashicorp.com {{ vagrant_apt_distribution }} main
 
 vagrant_machines: []
 vagrant_machines_directory: "/tmp/vagrant-{{ vagrant_machines|to_yaml|hash('md5') }}"
 vagrant_plugins: []  # e.g. vbox-snapshot
 vagrant_release_validate_certs: yes
 vagrant_update_boxes: yes
-vagrant_version: UNDEFINED  # Hack to fix `undefined error` even if not relevant ...
+vagrant_version: UNDEFINED  # E.g. 2.3.6-1 - Hackish value to fix `undefined error` even if not relevant ...
+

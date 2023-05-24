@@ -5,8 +5,9 @@
     - name: Copy Vagrant apt key
       ansible.builtin.get_url:
         url: '{{ vagrant_apt_key }}'
-        dest: /usr/share/keyrings/hashicorp-archive-keyring.asc
+        dest: '{{ vagrant_apt_key_path }}'
         checksum: '{{ vagrant_apt_key_checksum }}'
+        mode: '0644'
 
     - name: Install Vagrant apt repository
       ansible.builtin.apt_repository:
