@@ -1,0 +1,20 @@
+---
+
+- block:
+    # New way of managing keys
+    - name: Copy Vagrant apt key
+      ansible.builtin.get_url:
+        url: '{{ vagrant_apt_key }}'
+        dest: /usr/share/keyrings/hashicorp-archive-keyring.asc
+        checksum: '{{ vagrant_apt_key_checksum }}'
+
+    - name: Install Vagrant apt repository
+      ansible.builtin.apt_repository:
+        repo: '{{ vagrant_apt_repository }}'
+        filename: ansible_roles_vagrant
+        state: present
+        update_cache: yes
+  become: '{{ do_become }}'
+  tags: [vagrant, packages]  # FIXME Remove when this is fixed https://github.com/ansible/ansible/issues/30882
+
+...
