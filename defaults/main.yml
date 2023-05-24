@@ -25,7 +25,7 @@ vagrant_dynamic_defaults:
 vagrant_apt_key: https://apt.releases.hashicorp.com/gpg
 vagrant_apt_key_checksum: sha256:cafb01beac341bf2a9ba89793e6dd2468110291adfbb6c62ed11a0cde6c09029
 vagrant_apt_distribution: '{{ ansible_distribution_release }}'
-vagrant_apt_repository: deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com {{ vagrant_apt_distribution }} main
+vagrant_apt_repository: deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.asc] https://apt.releases.hashicorp.com {{ vagrant_apt_distribution }} main
 
 vagrant_machines: []
 vagrant_machines_directory: "/tmp/vagrant-{{ vagrant_machines|to_yaml|hash('md5') }}"
