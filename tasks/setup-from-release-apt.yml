@@ -1,8 +1,10 @@
 ---
 
 - name: Install Vagrant release {{ vagrant_version }}
-  apt:
+  ansible.builtin.apt:
     deb: '{{ local_source_directory }}/{{ vagrant_release_url|basename }}'
     state: present
-  become: yes
+  become: true
   tags: [vagrant, packages] # FIXME Remove when this is fixed https://github.com/ansible/ansible/issues/30882
+
+...

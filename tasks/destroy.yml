@@ -13,9 +13,11 @@
     label: '{{ item.name }}'
 
 - name: Cleanup machines SSH authentication footprints
-  known_hosts:
+  ansible.builtin.known_hosts:
     name: '{{ item.host_public }}'
     state: absent
   loop: '{{ vagrant_machines }}'
   loop_control:
     label: '{{ item.name }}'
+
+...

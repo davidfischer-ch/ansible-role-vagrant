@@ -1,20 +1,22 @@
+---
+
 vagrant_dynamic_defaults:
 
   apt:
     vagrant_release_url: 'https://apt.releases.hashicorp.com/pool/amd64/main/vagrant_{{ vagrant_version }}_amd64.deb'
-    vagrant_release_validate_certs: no
-    vagrant_from_release: no
+    vagrant_release_validate_certs: false
+    vagrant_from_release: false
 
   yum:
     vagrant_release_url: 'https://releases.hashicorp.com/vagrant/{{ vagrant_version }}/vagrant_{{ vagrant_version }}_x86_64.rpm'
-    vagrant_from_release: yes
+    vagrant_from_release: true
 
   linux:
     vagrant_packages:
       - vagrant
 
   macosx:
-    vagrant_from_release: no
+    vagrant_from_release: false
     vagrant_release_url: 'https://releases.hashicorp.com/vagrant/{{ vagrant_version }}/vagrant_{{ vagrant_version }}_x86_64.dmg'
     vagrant_packages:
       - vagrant
@@ -31,7 +33,8 @@ vagrant_apt_repository: deb [signed-by={{ vagrant_apt_key_path }}] https://apt.r
 vagrant_machines: []
 vagrant_machines_directory: "/tmp/vagrant-{{ vagrant_machines|to_yaml|hash('md5') }}"
 vagrant_plugins: []  # e.g. vbox-snapshot
-vagrant_release_validate_certs: yes
-vagrant_update_boxes: yes
+vagrant_release_validate_certs: true
+vagrant_update_boxes: true
 vagrant_version: UNDEFINED  # E.g. 2.3.6-1 - Hackish value to fix `undefined error` even if not relevant ...
 
+...

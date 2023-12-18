@@ -4,14 +4,14 @@
     - include_tasks: setup-from-{{ 'release' if vagrant_from_release|bool else 'repository' }}.yml
 
     - name: Get installed Vagrant plugins
-      command:
+      ansible.builtin.command:
         vagrant plugin list
-      changed_when: no
-      check_mode: no
+      changed_when: false
+      check_mode: false
       register: _vagrant_plugin
 
     - name: Install Vagrant plugins
-      command:
+      ansible.builtin.command:
         vagrant plugin install vagrant-{{ item }}
       loop: '{{ vagrant_plugins }}'
       when: item not in _vagrant_plugin.stdout
@@ -22,23 +22,23 @@
 
     - block:
         - name: Check boxes are up-to-date
-          command:
+          ansible.builtin.command:
             vagrant box outdated
           args:
             chdir: '{{ vagrant_machines_directory }}'
           changed_when: "'to update' in _vagrant_outdated.stdout"
-          check_mode: no
+          check_mode: false
           register: _vagrant_outdated
 
         - block:
             - name: Update boxes
-              command:
+              ansible.builtin.command:
                 vagrant box update
               args:
                 chdir: '{{ vagrant_machines_directory }}'
 
             - name: Cleanup boxes
-              command:
+              ansible.builtin.command:
                 vagrant box prune --force {{ ansible_check_mode|ternary('--dry-run', '') }}
               changed_when: >
                 _vagrant_prune is success and (
@@ -46,7 +46,7 @@
                   'no installed' not in _vagrant_prune.stdout and
                   'No old versions' not in _vagrant_prune.stdout
                 )
-              check_mode: no
+              check_mode: false
               register: _vagrant_prune
           when: _vagrant_outdated is change
       tags: upgrade
@@ -66,7 +66,7 @@
   always:
     # FIXME less verbose output https://github.com/ansible/ansible/issues/5564
     - name: Cleanup machines SSH authentication footprints
-      known_hosts:
+      ansible.builtin.known_hosts:
         name: '{{ item.item.host_public }}'
         state: absent
       loop: '{{ _vagrant_provision.results|default([]) }}'
@@ -77,7 +77,7 @@
 
 - name: Wait for machines to be started
   local_action:
-    module: wait_for
+    module: ansible.builtin.wait_for
     host: '{{ item.host_public }}'
     port: 22
     state: started
@@ -85,3 +85,5 @@
   loop_control:
     label: '{{ item.name }}'
   tags: provision
+
+...

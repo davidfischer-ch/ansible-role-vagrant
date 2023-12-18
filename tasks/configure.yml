@@ -1,22 +1,22 @@
 ---
 
 - name: Create machines configuration directory
-  file:
+  ansible.builtin.file:
     name: '{{ vagrant_machines_directory }}'
     state: directory
 
 - name: Generate Vagrant file
-  template:
+  ansible.builtin.template:
     src: Vagrantfile.j2
     dest: '{{ vagrant_machines_directory }}/Vagrantfile'
     mode: '644'
 
 - name: Retrieve machines IDs
-  set_fact:
+  ansible.builtin.set_fact:
     vagrant_machines: '{{ vagrant_machines|set_vagrant_machines_ids }}'
 
 - name: Create machines metadata directories
-  file:
+  ansible.builtin.file:
     name: '{{ vagrant_machines_directory }}/.vagrant/machines/{{ item.name }}/{{ item.provider }}'
     state: directory
   loop: '{{ vagrant_machines }}'
@@ -24,10 +24,12 @@
     label: '{{ item.name }}'
 
 - name: Update machines IDs file
-  copy:
+  ansible.builtin.copy:
     dest: '{{ vagrant_machines_directory }}/.vagrant/machines/{{ item.name }}/{{ item.provider }}/id'
     content: '{{ item.uuid }}'
-    force: yes
+    force: true
   loop: '{{ vagrant_machines }}'
   loop_control:
     label: '{{ item.name }}'
+
+...

@@ -4,8 +4,10 @@
     - include_tasks: setup-from-repository-{{ ansible_pkg_mgr }}.yml
 
     - name: Install Vagrant packages
-      package:
+      ansible.builtin.package:
         name: '{{ vagrant_packages }}'
         state: present
-  become: yes
+  become: true
   tags: [vagrant, packages] # FIXME Remove when this is fixed https://github.com/ansible/ansible/issues/30882
+
+...

@@ -1,23 +1,23 @@
 ---
 
-- assert:
+- ansible.builtin.assert:
     that:
       - vagrant_snapshots is defined
 
 - name: Retrieve snapshots
-  command:
+  ansible.builtin.command:
     vagrant snapshot list {{ item.key }}
   args:
     chdir: '{{ vagrant_machines_directory }}'
-  changed_when: no
-  check_mode: no
+  changed_when: false
+  check_mode: false
   loop_control:
     label: '{{ item.key }}'
   register: vagrant_snapshot_list
   with_dict: '{{ vagrant_snapshots }}'
 
 - name: Take snapshots
-  command:
+  ansible.builtin.command:
     vagrant snapshot take {{ item.item.key }} {{ item.item.value }}
   args:
     chdir: '{{ vagrant_machines_directory }}'
@@ -25,3 +25,5 @@
   loop_control:
     label: '{{ item.item.key }} snapshot {{ item.item.value }}'
   when: "' {{ item.item.value }} ' not in item.stdout"
+
+...

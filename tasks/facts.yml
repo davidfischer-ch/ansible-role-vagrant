@@ -6,12 +6,14 @@
         defaults: '{{ vagrant_dynamic_defaults }}'
         must_match: yes
 
-    - assert:
+    - ansible.builtin.assert:
         that:
           - vagrant_role_action in vagrant_role_actions
           - vagrant_version is defined
 
     - name: Make machines directory variable constant
-      set_fact:
+      ansible.builtin.set_fact:
         vagrant_machines_directory: '{{ vagrant_machines_directory }}'
   tags: always
+
+...

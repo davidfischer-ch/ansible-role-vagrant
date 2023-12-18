@@ -1,6 +1,6 @@
 ---
 
-- assert:
+- ansible.builtin.assert:
     that:
       - vagrant_power_mode in vagrant_power_modes
 
@@ -16,3 +16,5 @@
   loop: "{{ vagrant_machines[::1 if vagrant_power_mode == 'running' else -1] }}"
   loop_control:
     label: '{{ item.name }}'
+
+...

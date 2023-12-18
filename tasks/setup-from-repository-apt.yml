@@ -14,7 +14,7 @@
         repo: '{{ vagrant_apt_repository }}'
         filename: ansible_roles_vagrant
         state: present
-        update_cache: yes
+        update_cache: true
   become: '{{ do_become }}'
   tags: [vagrant, packages]  # FIXME Remove when this is fixed https://github.com/ansible/ansible/issues/30882
 
